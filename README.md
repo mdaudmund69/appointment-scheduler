@@ -1,30 +1,51 @@
-# SaaS appointment scheduler
+# Appointment Scheduler
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+A Next.js and TypeScript appointment-scheduling prototype for barbers, with public booking pages, barber dashboards, administration screens, Supabase integration, and Stripe-related subscription/payment flows.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/mdaudmund0023-gmailcoms-projects/v0-saa-s-appointment-scheduler)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/ppWyz4uLyt0)
+## Application areas
 
-## Overview
+- Public booking and checkout routes under `app/book/`.
+- Barber signup, login, services, opening hours, bookings, and subscription screens.
+- Admin login, barber management, and analytics screens.
+- Embeddable booking widget routes.
+- API routes for bookings, payment status, reminders, and calendar synchronization.
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+These are source-code components, not a claim that every external integration has been verified in production.
 
-## Deployment
+## Stack
 
-Your project is live at:
+Next.js 15, React 19, TypeScript, Tailwind CSS, Radix UI, Supabase, and Stripe SDKs. The frontend was scaffolded with v0.
 
-**[https://vercel.com/mdaudmund0023-gmailcoms-projects/v0-saa-s-appointment-scheduler](https://vercel.com/mdaudmund0023-gmailcoms-projects/v0-saa-s-appointment-scheduler)**
+## Structure
 
-## Build your app
+| Directory | Purpose |
+| --- | --- |
+| `app/` | Pages, server actions, and API routes |
+| `components/` | Shared UI |
+| `lib/supabase/` | Browser and server database clients |
+| `lib/hooks/` | Authentication hooks |
+| `lib/email/` | Email templates and delivery scaffold |
+| `scripts/` | Database schema and admin-role SQL |
 
-Continue building your app on:
+## Local development
 
-**[https://v0.app/chat/projects/ppWyz4uLyt0](https://v0.app/chat/projects/ppWyz4uLyt0)**
+```bash
+npm install
+npm run dev
+```
 
-## How It Works
+Open http://localhost:3000. Connected features require your own development services and configuration.
 
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+The source reads `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and server-side `STRIPE_SECRET_KEY`. Some files use differently named Supabase variables: reconcile those names before expecting the application to work end to end. Keep server secrets out of browser-exposed variables and git.
+
+Review the SQL in `scripts/` and apply it only to a suitable development Supabase project. Configure Stripe with test credentials while developing.
+
+## Integration status and next steps
+
+- Verify the database schema, row-level access policies, and server authorization for each workflow.
+- Standardize Supabase environment-variable names across clients, middleware, and subscription code.
+- The email delivery module contains provider-integration scaffolding; configure and test a real delivery implementation before promising reminders.
+- Verify payment, calendar, and SMS integrations separately rather than assuming route existence proves delivery.
+- Add documented end-to-end tests for booking creation, access control, and payment reconciliation.
+
+This README was checked against repository structure and configuration references. No payment, email, SMS, or production-service requests were made during the documentation update, and the complete app has not been run for this review.
